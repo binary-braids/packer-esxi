@@ -1,0 +1,62 @@
+variables:
+- group: packer-esxi-variables-host-02
+- group: packer-esxi-variables-windows
+- group: packer-esxi-variables-linux
+
+parameters:
+- name: agentPool
+  displayName: 'Agent Pool Selection'
+  type: string
+  default: Self-Hosted
+  values:
+  - Self-Hosted
+  - Oracle-Cloud
+- name: packerBuildImage
+  displayName: Packer Build Image
+  default: win2022_dc
+  values:
+  - ubuntu2204
+  - win2022_dc
+  - win2022_std
+- name: packerTemplate
+  displayName: Packer Template
+  default: win2022_g2
+  values:
+    - ubuntu2204_g2
+    - win2022_g2
+- name: windowsKeySelection
+  displayName: Windows Key Selection
+  default: $(host_01_key)
+  values:
+    - $(host_01_key)
+    - $(host_02_key)
+
+trigger:
+- none
+
+stages:
+
+- stage: 'packerbuild'
+  dependsOn: []
+  displayName: 'Packer Build'
+
+  jobs:
+    - job: 'packerbuild'
+      displayName: 'Packer Build'
+      pool: ${{ parameters.agentPool }}
+      timeoutInMinutes: 180
+
+      steps:
+      - task: Ansible@0
+        displayName: Packer Binary Install
+        inputs:
+          ansibleInterface: 'agentMachine'
+          playbookPathOnAgentMachine: '$(System.DefaultWorkingDirectory)/packer_build.yml'
+          inventoriesAgentMachine: 'file'
+          inventoryFileOnAgentMachine: '/ansible/inventory/prod/windows.ini'
+          args: '--extra-vars "nodes=${{ parameters.nodeSelection }} packer_image=${{ parameters.packerBuildImage }} packer_template=${{ parameters.packerTemplate }} pat=$PAT  product_key=$PRODUCT_KEY packer_admin_password=$PACKER_ADMIN_PASSWORD"'
+          failOnStdErr: false
+        env:
+          PAT: $(pat)
+          PRODUCT_KEY: ${{ parameters.windowsKeySelection }}
+          PACKER_ADMIN_PASSWORD: $(packer_admin_password)

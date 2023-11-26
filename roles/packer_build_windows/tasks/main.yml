@@ -1,0 +1,125 @@
+- name: Install git
+  win_chocolatey:
+    name: git
+    state: present
+
+- name: Install Packer
+  win_chocolatey:
+    name: packer
+    state: present
+
+- name: Create Git directory
+  ansible.windows.win_file:
+    path: C:\git\
+    state: directory
+
+- name: Clone Packer Hyper-V Repo
+  ansible.windows.win_shell: |
+    git clone https://github.com/data-tangles/packer-hyperv.git
+  args:
+    chdir: C:\git\
+
+- name: Install required Packer plugins
+  ansible.windows.win_shell: |
+    packer init --upgrade config.pkr.hcl
+  args:
+    chdir: C:\git\packer-hyperv
+
+- name: Clone Packer Vars Repo
+  ansible.windows.win_shell: |
+    git clone https://data-tangles:{{ pat }}@github.com/data-tangles/packer-vars.git
+  args:
+    chdir: C:\git\
+
+- name: Copy Autounattend file
+  ansible.windows.win_template:
+    src: autounattend.xml.j2
+    dest: C:\git\packer-hyperv\extra\files\gen2-2022\dc\autounattend.xml
+
+- name: Copy Unattend file
+  ansible.windows.win_template:
+    src: unattend.xml.j2
+    dest: C:\git\packer-hyperv\extra\files\gen2-2022\dc\unattend.xml
+
+- name: Copy Packer template file
+  ansible.windows.win_template:
+    src: hv_win2022_g2.pkr.hcl.j2
+    dest: C:\git\packer-hyperv\templates\hv_win2022_g2.pkr.hcl
+
+- name: Build Gen2 ISO
+  ansible.windows.win_shell: |
+    .\unattend-iso-build.ps1
+  args:
+    chdir: C:\git\packer-hyperv
+
+- name: Install required Packer plugins
+  ansible.windows.win_shell: |
+    packer init --upgrade config.pkr.hcl
+  args:
+    chdir: C:\git\packer-hyperv
+
+- name: Run Packer build
+  ansible.windows.win_shell: |
+    # Build images
+
+    # Get Start Time
+    $startDTM = (Get-Date)
+
+    # Variables
+    $template_file="./templates/hv_{{ packer_template }}.pkr.hcl"
+    $var_file="C:\git\packer-vars\variables\packer-hyperv\variables_{{ packer_image }}.pkvars.hcl"
+    $packer_log=1
+    $packer_log_path = "packer_log_$($machine).txt"
+
+    if ((Test-Path -Path "$template_file") -and (Test-Path -Path "$var_file")) {
+      Write-Output "Template and var file found"
+      Write-Output "Building: ${{ packer_image }}"
+      try {
+        $env:PACKER_LOG=$packer_log
+        $env:PACKER_LOG_PATH=$packer_log_path
+        packer validate -var-file="$var_file" "$template_file"
+      }
+      catch {
+        Write-Output "Packer validation failed, exiting."
+        exit (-1)
+      }
+      try {
+        $env:PACKER_LOG=$packer_log
+        $env:PACKER_LOG_PATH=$packer_log_path
+        packer version
+        packer build --force -var-file="$var_file" "$template_file"
+      }
+      catch {
+        Write-Output "Packer build failed, exiting."
+        exit (-1)
+      }
+    }
+    else {
+      Write-Output "Template or Var file not found - exiting"
+      exit (-1)
+    }
+
+    $endDTM = (Get-Date)
+    Write-Host "[INFO]  - Elapsed Time: $(($endDTM-$startDTM).totalseconds) seconds" -ForegroundColor Yellow
+  args:
+    chdir: C:\git\packer-hyperv
+  register: packer_build_output
+
+- name: Output Packer Build info
+  ansible.builtin.debug:
+    msg: packer_build_output.stdout
+
+- name: Remove Git directory
+  ansible.windows.win_file:
+    path: C:\git
+    state: absent
+
+- name: Remove git
+  win_chocolatey:
+    name: git
+    state: absent
+
+- name: Install Packer
+  win_chocolatey:
+    name: packer
+    state: absent
