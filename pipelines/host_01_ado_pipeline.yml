@@ -1,7 +1,7 @@
 variables:
-- group: packer-esxi-variables-host-01
-- group: packer-esxi-variables-windows
-- group: packer-esxi-variables-linux
+- group: packer_esxi_variables_host_01
+- group: packer_esxi_variables_windows
+- group: packer_esxi_variables_linux
 
 parameters:
 - name: agentPool

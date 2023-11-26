@@ -4,9 +4,9 @@ packer {
       version = "0.14.1"
       source = "github.com/rgl/windows-update"
     }
-    vsphere = {
-      version = "~> 1"
-      source  = "github.com/hashicorp/vsphere"
+    vmware = {
+      version = "1.0.8"
+      source  = "github.com/hashicorp/vmware"
     }
   }
 }
