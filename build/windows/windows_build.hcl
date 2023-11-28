@@ -1,39 +1,155 @@
 # Copyright (c) HashiCorp, Inc.
 # SPDX-License-Identifier: MPL-2.0
 
-locals {
-  data_directory = var.data_directory == null ? "data" : var.data_directory
-  memory         = var.memory == null ? 2048 : var.memory
+source "vmware-iso" "windows" {
+  remote_type               = "esx5"
+  remote_host               = var.remote_host
+  remote_port               = var.remote_port
+  remote_username           = var.remote_username
+  remote_password           = var.remote_password
+  remote_cache_directory    = var.remote_cache_directory
+  remote_datastore          = var.remote_datastore
+  remote_output_directory   = var.remote_output_directory
+
+  communicator              = "winrm"
+  winrm_username            = var.winrm_username
+  winrm_password            = var.winrm_password
+  winrm_timeout             = "8h"
+
+
+  vm_name                   = var.vm_name
+  boot_command              = var.boot_command
+  boot_wait                 = "10s"
+  cpus                      = var.cpus
+  memory                    = var.memory
+  cdrom_adapter_type        = var.cdrom_adapter_type
+  disk_adapter_type         = var.disk_adapter_type
+  guest_os_type             = var.guest_os_type
+  headless                  = var.headless
+  iso_checksum              = var.iso_checksum
+  iso_url                   = var.iso_url
+  network_adapter_type      = var.network_adapter_type
+  tools_upload_flavor       = "windows"
 }
 
-source "vmware-iso" "windows" {
-  boot_command       = var.boot_command
-  boot_wait          = "10s"
-  cpus               = 2
-  cdrom_adapter_type = var.cdrom_adapter_type
-  disk_adapter_type  = var.disk_adapter_type
-  guest_os_type      = var.guest_os_type
-  headless           = var.vm_headless
-  http_content = { # Use http_content template to dynamic configure preseed - https://www.hashicorp.com/blog/using-template-files-with-hashicorp-packer
-    "/preseed.cfg" = templatefile("${abspath(path.root)}/${local.data_directory}/preseed.pkrtpl.hcl", {
-      build_username       = var.build_username
-      build_password       = var.build_password
-      vm_guest_os_language = var.vm_guest_os_language
-      vm_guest_os_keyboard = var.vm_guest_os_keyboard
-      vm_guest_os_timezone = var.vm_guest_os_timezone
-    })
+build {
+  sources = ["source.hyperv-iso.vm"]
+
+  provisioner "powershell" {
+    elevated_password = "password"
+    elevated_user     = "Administrator"
+    script            = "./build/scripts/windows/phase-1.ps1"
   }
-  iso_checksum         = var.iso_checksum
-  iso_url              = var.iso_url
-  memory               = local.memory
-  network_adapter_type = var.network_adapter_type
-  output_directory     = "builds/${var.vm_name}"
-  shutdown_command     = "echo 'vagrant' | sudo -S shutdown -P now"
-  ssh_password         = "vagrant"
-  ssh_timeout          = "10000s"
-  ssh_username         = "vagrant"
-  tools_upload_flavor  = var.tools_upload_flavor
-  tools_upload_path    = var.tools_upload_path
-  version              = var.hardware_version
-  vmx_data             = var.vmx_data
+
+  provisioner "windows-restart" {
+    restart_timeout = "1h"
+  }
+
+  provisioner "powershell" {
+    elevated_password = "password"
+    elevated_user     = "Administrator"
+    script            = "./build/scripts/windows/phase-2.ps1"
+  }
+
+  provisioner "powershell" {
+    elevated_password = "password"
+    elevated_user     = "Administrator"
+    script            = "./build/scripts/windows/phase-3.ps1"
+  }
+
+  provisioner "windows-restart" {
+    pause_before          = "1m0s"
+    restart_check_command = "powershell -command \"& {Write-Output 'restarted.'}\""
+    restart_timeout       = "2h"
+  }
+
+  provisioner "powershell" {
+    elevated_password = "password"
+    elevated_user     = "Administrator"
+    script            = "./build/scripts/windows/phase-3.windows-updates.ps1"
+  }
+
+  provisioner "windows-restart" {
+    pause_before          = "30s"
+    restart_check_command = "powershell -command \"& {Write-Output 'restarted.'}\""
+    restart_timeout       = "2h"
+  }
+
+  provisioner "powershell" {
+    elevated_password = "password"
+    elevated_user     = "Administrator"
+    inline            = ["Write-Host \"Pausing before next stage\";Start-Sleep -Seconds ${var.upgrade_timeout}"]
+  }
+
+  provisioner "powershell" {
+    elevated_password = "password"
+    elevated_user     = "Administrator"
+    pause_before      = "30s"
+    script            = "./build/scripts/windows/phase-3.windows-updates.ps1"
+  }
+
+  provisioner "windows-restart" {
+    pause_before          = "30s"
+    restart_check_command = "powershell -command \"& {Write-Output 'restarted.'}\""
+    restart_timeout       = "2h"
+  }
+
+  provisioner "powershell" {
+    elevated_password = "password"
+    elevated_user     = "Administrator"
+    inline            = ["Write-Host \"Pausing before next stage\";Start-Sleep -Seconds ${var.upgrade_timeout}"]
+  }
+
+  provisioner "powershell" {
+    elevated_password = "password"
+    elevated_user     = "Administrator"
+    pause_before      = "30s"
+    script            = "./build/scripts/windows/phase-3.windows-updates.ps1"
+  }
+
+  provisioner "windows-restart" {
+    pause_before          = "30s"
+    restart_check_command = "powershell -command \"& {Write-Output 'restarted.'}\""
+    restart_timeout       = "2h"
+  }
+
+  provisioner "powershell" {
+    elevated_password = "password"
+    elevated_user     = "Administrator"
+    inline            = ["Write-Host \"Pausing before next stage\";Start-Sleep -Seconds ${var.upgrade_timeout}"]
+  }
+
+  provisioner "powershell" {
+    elevated_password = "password"
+    elevated_user     = "Administrator"
+    pause_before      = "30s"
+    script            = "./build/scripts/windows/phase-3.windows-updates.ps1"
+  }
+
+  provisioner "windows-restart" {
+    pause_before          = "30s"
+    restart_check_command = "powershell -command \"& {Write-Output 'restarted.'}\""
+    restart_timeout       = "2h"
+  }
+
+  provisioner "powershell" {
+    elevated_password = "password"
+    elevated_user     = "Administrator"
+    inline            = ["Write-Host \"Pausing before next stage\";Start-Sleep -Seconds ${var.upgrade_timeout}"]
+  }
+
+  provisioner "powershell" {
+    elevated_password = "password"
+    elevated_user     = "Administrator"
+    script            = "./build/scripts/windows/phase-5d.windows-compress.ps1"
+  }
+
+  provisioner "file" {
+    destination = "C:\\Windows\\System32\\Sysprep\\unattend.xml"
+    source      = "${var.sysprep_unattended}"
+  }
+
+  provisioner "powershell" {
+    inline = ["Write-Output Phase-5-Deprovisioning", "if (!(Test-Path -Path $Env:SystemRoot\\system32\\Sysprep\\unattend.xml)){ Write-Output 'No file';exit (10)}", "& $Env:SystemRoot\\System32\\Sysprep\\Sysprep.exe /oobe /generalize /shutdown /quiet /unattend:C:\\Windows\\system32\\sysprep\\unattend.xml"]
+  }
 }

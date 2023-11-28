@@ -7,6 +7,13 @@ locals {
 }
 
 source "vmware-iso" "windows" {
+  remote_type        = "esx5"
+  remote_host        = var.remote_host
+  remote_port        = var.remote_port
+  remote_username    = var.remote_username
+  remote_password    = var.remote_password
+  remote_datastore   - var.remote_datastore
+
   boot_command       = var.boot_command
   boot_wait          = "10s"
   cpus               = 2
@@ -14,15 +21,6 @@ source "vmware-iso" "windows" {
   disk_adapter_type  = var.disk_adapter_type
   guest_os_type      = var.guest_os_type
   headless           = var.vm_headless
-  http_content = { # Use http_content template to dynamic configure preseed - https://www.hashicorp.com/blog/using-template-files-with-hashicorp-packer
-    "/preseed.cfg" = templatefile("${abspath(path.root)}/${local.data_directory}/preseed.pkrtpl.hcl", {
-      build_username       = var.build_username
-      build_password       = var.build_password
-      vm_guest_os_language = var.vm_guest_os_language
-      vm_guest_os_keyboard = var.vm_guest_os_keyboard
-      vm_guest_os_timezone = var.vm_guest_os_timezone
-    })
-  }
   iso_checksum         = var.iso_checksum
   iso_url              = var.iso_url
   memory               = local.memory

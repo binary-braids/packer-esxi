@@ -1,23 +1,26 @@
-boot_command = ["<esc><wait>", "<esc><wait>", "<enter><wait>", "/install/vmlinuz<wait>", " initrd=/install/initrd.gz", " auto-install/enable=true", " debconf/priority=critical", " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>", " -- <wait>", "<enter><wait>"]
-build_username = "vagrant"
-build_password = "vagrant"
+remote_host = ""
+remote_port = ""
+remote_username = ""
+remote_password = ""
+remote_cache_directory = ""
+remote_datastore = ""
+remote_output_directory = ""
+
+winrm_username = ""
+winrm_password = ""
+
+vm_name = ""
+boot_command = ["a<enter><wait>a<enter><wait>a<enter><wait>a<enter>"]
+cpus = 2
+memory = "2048"
 cdrom_adapter_type = "sata"
-data_directory = "null"
-disk_size = 65536
 disk_adapter_type = "lsilogic"
+disk_size = 65536
 guest_os_type = null
-hardware_version = 19
+headless = true
 iso_checksum = null
 iso_url = null
-memory = null
 network_adapter_type = null
 tools_upload_flavor = null
-tools_upload_path = null
-vm_name = "debian"
-vmx_data = {
-    "cpuid.coresPerSocket" = "2"
-  }
-vm_guest_os_language = "en"
-vm_guest_os_keyboard = "us"
-vm_guest_os_timezone = "UTC"
-vm_headless = true
+
+upgrade_timeout = ""

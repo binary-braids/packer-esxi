@@ -1,4 +1,4 @@
-boot_command = ["<esc><wait>", "<esc><wait>", "<enter><wait>", "/install/vmlinuz<wait>", " initrd=/install/initrd.gz", " auto-install/enable=true", " debconf/priority=critical", " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>", " -- <wait>", "<enter><wait>"]
+boot_command = ["a<enter><wait>a<enter><wait>a<enter><wait>a<enter>"]
 build_username = "vagrant"
 build_password = "vagrant"
 cdrom_adapter_type = "sata"
