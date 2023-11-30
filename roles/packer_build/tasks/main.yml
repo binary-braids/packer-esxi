@@ -5,7 +5,7 @@
 
 - name: Add Packer Repository
   apt_repository:
-    repo: deb https://download.docker.com/linux/ubuntu jammy main
+    repo: deb https://apt.releases.hashicorp.com jammy main
     state: present
 
 - name: Update apt and install Packer
