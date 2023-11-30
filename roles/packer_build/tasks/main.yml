@@ -17,6 +17,8 @@
 - name: Run Packer Init
   ansible.builtin.shell: |
     packer init .
+  args:
+    chdir: ./build/{{ template_selection }}/
 
 - name: Run Packer Build
   ansible.builtin.shell: |
