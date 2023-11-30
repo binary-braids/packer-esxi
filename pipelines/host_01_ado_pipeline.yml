@@ -51,5 +51,5 @@ stages:
           ansibleInterface: 'agentMachine'
           playbookPathOnAgentMachine: '$(System.DefaultWorkingDirectory)/packer_build.yml'
           inventoriesAgentMachine: 'file'
-          args: '--extra-vars "nodes=${{ parameters.nodeSelection }} template_selection=${{ parameters.templateSelection }}"'
+          args: '--extra-vars "nodes=$(remote_host) template_selection=${{ parameters.templateSelection }}"'
           failOnStdErr: false
