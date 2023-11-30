@@ -45,6 +45,18 @@ stages:
           actionOnMissing: 'warn'
           enableTelemetry: false
 
+      - task: replacetokens@5
+        condition: ${{ eq(parameters.templateSelection, true) }}
+        displayName: Replace Tokens for XML
+        inputs:
+          rootDirectory: '$(System.DefaultWorkingDirectory)/build/scripts/${{ parameters.templateSelection }}/'
+          targetFiles: '**/*.*'
+          encoding: 'auto'
+          tokenPattern: 'default'
+          writeBOM: true
+          actionOnMissing: 'warn'
+          enableTelemetry: false
+
       - task: Ansible@0
         displayName: Packer Binary Install
         inputs:
