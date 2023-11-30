@@ -22,6 +22,6 @@
 
 - name: Run Packer Build
   ansible.builtin.shell: |
-    packer build -force -debug .
+    packer build --force .
   args:
     chdir: ./build/{{ template_selection }}/

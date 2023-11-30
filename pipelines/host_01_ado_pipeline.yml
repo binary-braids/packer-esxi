@@ -46,7 +46,7 @@ stages:
           enableTelemetry: false
 
       - task: replacetokens@5
-        condition: ${{ eq(parameters.templateSelection, true) }}
+        condition: eq('${{ parameters.templateSelection }}', 'windows' )
         displayName: Replace Tokens for XML
         inputs:
           rootDirectory: '$(System.DefaultWorkingDirectory)/build/scripts/${{ parameters.templateSelection }}/'
