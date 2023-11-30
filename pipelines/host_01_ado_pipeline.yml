@@ -50,7 +50,8 @@ stages:
         displayName: Packer Binary Install
         inputs:
           ansibleInterface: 'agentMachine'
-          inventoriesAgentMachine: 'noInventory'
+          inventoriesAgentMachine: 'inlineContent'
+          inventoryInlineContentAgentMachine: '$(remote_host)'
           playbookPathOnAgentMachine: '$(System.DefaultWorkingDirectory)/packer_build.yml'
-          args: '--extra-vars "nodes=$(remote_host) template_selection=${{ parameters.templateSelection }}"'
+          args: '--extra-vars "template_selection=${{ parameters.templateSelection }}"'
           failOnStdErr: false
