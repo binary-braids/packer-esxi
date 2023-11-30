@@ -1,6 +1,3 @@
-# Copyright (c) HashiCorp, Inc.
-# SPDX-License-Identifier: MPL-2.0
-
 source "vmware-iso" "windows" {
   remote_type               = "esx5"
   remote_host               = var.remote_host
@@ -15,7 +12,10 @@ source "vmware-iso" "windows" {
   winrm_username            = var.winrm_username
   winrm_password            = var.winrm_password
   winrm_timeout             = "8h"
+  winrm_use_ssl             = "true"
+  winrm_insecure            = "true"
 
+  floppy_files              = var.floppy_files
 
   vm_name                   = var.vm_name
   boot_command              = var.boot_command
@@ -24,21 +24,30 @@ source "vmware-iso" "windows" {
   memory                    = var.memory
   cdrom_adapter_type        = var.cdrom_adapter_type
   disk_adapter_type         = var.disk_adapter_type
+  disk_type_id              = var.disk_type_id
   guest_os_type             = var.guest_os_type
+  version                   = "21"
+  vmx_data                  = {
+    "firmware"  = "efi"
+    "uefi.secureBoot.enabled" = "TRUE"
+  }
   headless                  = var.headless
   iso_checksum              = var.iso_checksum
   iso_url                   = var.iso_url
   network_adapter_type      = var.network_adapter_type
-  tools_upload_flavor       = "windows"
+  network_name              = var.network_name
+  skip_export               = "true"
+  vnc_over_websocket        = "true"
+  insecure_connection       = "true"
 }
 
 build {
-  sources = ["source.hyperv-iso.vm"]
+  sources = ["source.vmware-iso.windows"]
 
   provisioner "powershell" {
-    elevated_password = "password"
-    elevated_user     = "Administrator"
-    script            = "./build/scripts/windows/phase-1.ps1"
+    elevated_password = var.winrm_password
+    elevated_user     = "#{winrm_username}#"
+    script            = "../scripts/windows/phase-1.ps1"
   }
 
   provisioner "windows-restart" {
@@ -46,15 +55,9 @@ build {
   }
 
   provisioner "powershell" {
-    elevated_password = "password"
-    elevated_user     = "Administrator"
-    script            = "./build/scripts/windows/phase-2.ps1"
-  }
-
-  provisioner "powershell" {
-    elevated_password = "password"
-    elevated_user     = "Administrator"
-    script            = "./build/scripts/windows/phase-3.ps1"
+    elevated_password = var.winrm_password
+    elevated_user     = "#{winrm_username}#"
+    script            = "../scripts/windows/phase-2.ps1"
   }
 
   provisioner "windows-restart" {
@@ -64,9 +67,9 @@ build {
   }
 
   provisioner "powershell" {
-    elevated_password = "password"
-    elevated_user     = "Administrator"
-    script            = "./build/scripts/windows/phase-3.windows-updates.ps1"
+    elevated_password = var.winrm_password
+    elevated_user     = "#{winrm_username}#"
+    script            = "../scripts/windows/phase-3.windows-updates.ps1"
   }
 
   provisioner "windows-restart" {
@@ -76,16 +79,16 @@ build {
   }
 
   provisioner "powershell" {
-    elevated_password = "password"
-    elevated_user     = "Administrator"
+    elevated_password = var.winrm_password
+    elevated_user     = "#{winrm_username}#"
     inline            = ["Write-Host \"Pausing before next stage\";Start-Sleep -Seconds ${var.upgrade_timeout}"]
   }
 
   provisioner "powershell" {
-    elevated_password = "password"
-    elevated_user     = "Administrator"
+    elevated_password = var.winrm_password
+    elevated_user     = "#{winrm_username}#"
     pause_before      = "30s"
-    script            = "./build/scripts/windows/phase-3.windows-updates.ps1"
+    script            = "../scripts/windows/phase-3.windows-updates.ps1"
   }
 
   provisioner "windows-restart" {
@@ -95,53 +98,21 @@ build {
   }
 
   provisioner "powershell" {
-    elevated_password = "password"
-    elevated_user     = "Administrator"
+    elevated_password = var.winrm_password
+    elevated_user     = "#{winrm_username}#"
     inline            = ["Write-Host \"Pausing before next stage\";Start-Sleep -Seconds ${var.upgrade_timeout}"]
   }
 
   provisioner "powershell" {
-    elevated_password = "password"
-    elevated_user     = "Administrator"
-    pause_before      = "30s"
-    script            = "./build/scripts/windows/phase-3.windows-updates.ps1"
-  }
-
-  provisioner "windows-restart" {
-    pause_before          = "30s"
-    restart_check_command = "powershell -command \"& {Write-Output 'restarted.'}\""
-    restart_timeout       = "2h"
-  }
-
-  provisioner "powershell" {
-    elevated_password = "password"
-    elevated_user     = "Administrator"
+    elevated_password = var.winrm_password
+    elevated_user     = "#{winrm_username}#"
     inline            = ["Write-Host \"Pausing before next stage\";Start-Sleep -Seconds ${var.upgrade_timeout}"]
   }
 
   provisioner "powershell" {
-    elevated_password = "password"
-    elevated_user     = "Administrator"
-    pause_before      = "30s"
-    script            = "./build/scripts/windows/phase-3.windows-updates.ps1"
-  }
-
-  provisioner "windows-restart" {
-    pause_before          = "30s"
-    restart_check_command = "powershell -command \"& {Write-Output 'restarted.'}\""
-    restart_timeout       = "2h"
-  }
-
-  provisioner "powershell" {
-    elevated_password = "password"
-    elevated_user     = "Administrator"
-    inline            = ["Write-Host \"Pausing before next stage\";Start-Sleep -Seconds ${var.upgrade_timeout}"]
-  }
-
-  provisioner "powershell" {
-    elevated_password = "password"
-    elevated_user     = "Administrator"
-    script            = "./build/scripts/windows/phase-5d.windows-compress.ps1"
+    elevated_password = var.winrm_password
+    elevated_user     = "#{winrm_username}#"
+    script            = "../scripts/windows/phase-4d.windows-compression.ps1"
   }
 
   provisioner "file" {

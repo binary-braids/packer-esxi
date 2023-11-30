@@ -14,10 +14,6 @@ variable "remote_password" {
   type    = string
 }
 
-variable "iso_url" {
-  type    = string
-}
-
 variable "remote_cache_directory" {
   type    = string
 }
@@ -36,6 +32,10 @@ variable "winrm_username" {
 
 variable "winrm_password" {
   type    = string
+}
+
+variable "floppy_files" {
+  type    = list(string)
 }
 
 variable "vm_name" {
@@ -58,15 +58,15 @@ variable "cdrom_adapter_type" {
   type    = string
 }
 
-variable "data_directory" {
-  type    = string
-}
-
 variable "disk_size" {
   type    = number
 }
 
 variable "disk_adapter_type" {
+  type    = string
+}
+
+variable "disk_type_id" {
   type    = string
 }
 
@@ -86,14 +86,18 @@ variable "iso_checksum" {
   type    = string
 }
 
-variable "memory" {
-  type    = number
-}
-
 variable "network_adapter_type" {
   type    = string
 }
 
+variable "network_name" {
+  type    = string
+}
+
 variable "upgrade_timeout" {
+  type    = string
+}
+
+variable "sysprep_unattended" {
   type    = string
 }

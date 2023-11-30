@@ -11,25 +11,12 @@ parameters:
   values:
   - Self-Hosted
   - Oracle-Cloud
-- name: packerBuildImage
-  displayName: Packer Build Image
-  default: win2022_dc
+- name: templateSelection
+  displayName: Packer Template Selection
+  default: windows
   values:
-  - ubuntu2204
-  - win2022_dc
-  - win2022_std
-- name: packerTemplate
-  displayName: Packer Template
-  default: win2022_g2
-  values:
-    - ubuntu2204_g2
-    - win2022_g2
-- name: windowsKeySelection
-  displayName: Windows Key Selection
-  default: $(host_01_key)
-  values:
-    - $(host_01_key)
-    - $(host_02_key)
+    - windows
+    - linux
 
 trigger:
 - none
@@ -47,16 +34,22 @@ stages:
       timeoutInMinutes: 180
 
       steps:
+
+      - task: replacetokens@5
+        inputs:
+          rootDirectory: '$(System.DefaultWorkingDirectory)/build/{{ parameters.templateSelection }}/'
+          targetFiles: '**/*.*'
+          encoding: 'auto'
+          tokenPattern: 'default'
+          writeBOM: true
+          actionOnMissing: 'warn'
+          enableTelemetry: false
+
       - task: Ansible@0
         displayName: Packer Binary Install
         inputs:
           ansibleInterface: 'agentMachine'
           playbookPathOnAgentMachine: '$(System.DefaultWorkingDirectory)/packer_build.yml'
           inventoriesAgentMachine: 'file'
-          inventoryFileOnAgentMachine: '/ansible/inventory/prod/windows.ini'
-          args: '--extra-vars "nodes=${{ parameters.nodeSelection }} packer_image=${{ parameters.packerBuildImage }} packer_template=${{ parameters.packerTemplate }} pat=$PAT  product_key=$PRODUCT_KEY packer_admin_password=$PACKER_ADMIN_PASSWORD"'
+          args: '--extra-vars "nodes=${{ parameters.nodeSelection }} template_selection=${{ parameters.templateSelection }}"'
           failOnStdErr: false
-        env:
-          PAT: $(pat)
-          PRODUCT_KEY: ${{ parameters.windowsKeySelection }}
-          PACKER_ADMIN_PASSWORD: $(packer_admin_password)
