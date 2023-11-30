@@ -37,7 +37,7 @@ stages:
 
       - task: replacetokens@5
         inputs:
-          rootDirectory: '$(System.DefaultWorkingDirectory)/build/{{ parameters.templateSelection }}/'
+          rootDirectory: '$(System.DefaultWorkingDirectory)/build/${{ parameters.templateSelection }}/'
           targetFiles: '**/*.*'
           encoding: 'auto'
           tokenPattern: 'default'
