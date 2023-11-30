@@ -36,6 +36,7 @@ stages:
       steps:
 
       - task: replacetokens@5
+        displayName: Replace Tokens
         inputs:
           rootDirectory: '$(System.DefaultWorkingDirectory)/build/${{ parameters.templateSelection }}/'
           targetFiles: '**/*.*'
@@ -49,7 +50,7 @@ stages:
         displayName: Packer Binary Install
         inputs:
           ansibleInterface: 'agentMachine'
+          inventoriesAgentMachine: 'noInventory'
           playbookPathOnAgentMachine: '$(System.DefaultWorkingDirectory)/packer_build.yml'
-          inventoriesAgentMachine: 'file'
           args: '--extra-vars "nodes=$(remote_host) template_selection=${{ parameters.templateSelection }}"'
           failOnStdErr: false
