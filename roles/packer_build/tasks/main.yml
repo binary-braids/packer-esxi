@@ -14,6 +14,10 @@
     state: latest
     update_cache: true
 
+- name: Run Packer Init
+  ansible.builtin.shell: |
+    packer init .
+
 - name: Run Packer Build
   ansible.builtin.shell: |
     packer build -force -debug .
