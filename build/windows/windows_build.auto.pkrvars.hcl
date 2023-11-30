@@ -1,6 +1,6 @@
 remote_host = "#{remote_host}#"
 remote_port = #{remote_port}#
-remote_username = "#{remote_username}"
+remote_username = "#{remote_username}#"
 remote_password = "#{remote_password}#"
 remote_cache_directory = "#{remote_cache_directory}#"
 remote_datastore = "#{remote_datastore}#"
