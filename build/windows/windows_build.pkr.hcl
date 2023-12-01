@@ -14,6 +14,8 @@ source "vmware-iso" "windows" {
   winrm_timeout             = "8h"
   winrm_use_ssl             = "true"
   winrm_insecure            = "true"
+  shutdown_command          = "C:\\Windows\\system32\\sysprep\\sysprep.exe /unattend:C:\\Windows\\System32\\Sysprep\\unattend.xml /quiet /generalize /oobe /shutdown"
+  shutdown_timeout          = "15m"
 
   floppy_files              = var.floppy_files
 
@@ -118,9 +120,5 @@ build {
   provisioner "file" {
     destination = "C:\\Windows\\System32\\Sysprep\\unattend.xml"
     source      = "${var.sysprep_unattended}"
-  }
-
-  provisioner "powershell" {
-    inline = ["Write-Output Phase-5-Deprovisioning", "if (!(Test-Path -Path $Env:SystemRoot\\system32\\Sysprep\\unattend.xml)){ Write-Output 'No file';exit (10)}", "& $Env:SystemRoot\\System32\\Sysprep\\Sysprep.exe /oobe /generalize /shutdown /quiet /unattend:C:\\Windows\\system32\\sysprep\\unattend.xml"]
   }
 }
