@@ -14,9 +14,14 @@
     state: latest
     update_cache: true
 
-- name: Set Packer logging
+- name: Set Packer Log
   ansible.builtin.shell: |
     export PACKER_LOG=1
+  args:
+    chdir: ./build/{{ template_selection }}/
+
+- name: Set Packer Log Path
+  ansible.builtin.shell: |
     export PACKER_LOG_PATH="packer_build.log"
   args:
     chdir: ./build/{{ template_selection }}/
