@@ -22,8 +22,27 @@ trigger:
 
 stages:
 
-- stage: 'packerbuild'
+- stage: 'packerinstall'
   dependsOn: []
+  displayName: 'Packer Install'
+
+  jobs:
+    - job: 'packerinstall'
+      displayName: 'Packer Install'
+      pool: ${{ parameters.agentPool }}
+
+      steps:
+
+      - task: Ansible@0
+        displayName: Packer Install
+        inputs:
+          ansibleInterface: 'agentMachine'
+          inventoriesAgentMachine: 'noInventory'
+          playbookPathOnAgentMachine: '$(System.DefaultWorkingDirectory)/packer_install.yml'
+          failOnStdErr: false
+
+- stage: 'packerbuild'
+  dependsOn: [packerinstall]
   displayName: 'Packer Build'
 
   jobs:
@@ -33,6 +52,8 @@ stages:
       timeoutInMinutes: 180
 
       steps:
+
+      - checkout: none
 
       - task: replacetokens@5
         displayName: Replace Tokens
@@ -57,14 +78,26 @@ stages:
           actionOnMissing: 'warn'
           enableTelemetry: false
 
-      - task: Ansible@0
-        displayName: Packer Build
+      - task: CmdLine@2
+        displayName: Enable Packer Log
         inputs:
-          ansibleInterface: 'agentMachine'
-          inventoriesAgentMachine: 'noInventory'
-          playbookPathOnAgentMachine: '$(System.DefaultWorkingDirectory)/packer_build.yml'
-          args: '--extra-vars "template_selection=${{ parameters.templateSelection }}"'
-          failOnStdErr: false
+          script: |
+            export PACKER_LOG=1
+
+      - task: CmdLine@2
+        displayName: Enable Packer Log Path
+        inputs:
+          script: |
+            export PACKER_LOG_PATH="packer_build.log"
+          workingDirectory: '$(System.DefaultWorkingDirectory)/build/${{ parameters.templateSelection }}/'
+
+      - task: CmdLine@2
+        displayName: Run Packer Build
+        inputs:
+          script: |
+            packer init .
+            packer build --force .
+          workingDirectory: '$(System.DefaultWorkingDirectory)/build/${{ parameters.templateSelection }}/'
 
       - task: PublishBuildArtifacts@1
         displayName: Publish Packer Build Log

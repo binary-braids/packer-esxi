@@ -1,0 +1,15 @@
+- name: Add Packer GPG Key
+  apt_key:
+    url: https://apt.releases.hashicorp.com/gpg
+    state: present
+
+- name: Add Packer Repository
+  apt_repository:
+    repo: deb https://apt.releases.hashicorp.com jammy main
+    state: present
+
+- name: Update apt and install Packer
+  apt:
+    name: packer
+    state: latest
+    update_cache: true

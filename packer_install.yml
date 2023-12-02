@@ -1,4 +1,4 @@
 - hosts: localhost
   become: yes
   roles:
-    - packer_build
+    - packer_install
