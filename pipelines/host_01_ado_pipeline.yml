@@ -65,3 +65,10 @@ stages:
           playbookPathOnAgentMachine: '$(System.DefaultWorkingDirectory)/packer_build.yml'
           args: '--extra-vars "template_selection=${{ parameters.templateSelection }}"'
           failOnStdErr: false
+
+      - task: PublishBuildArtifacts@1
+        displayName: Publish Packer Build Log
+        inputs:
+          PathtoPublish: '$(System.DefaultWorkingDirectory)/packer_build.log'
+          ArtifactName: 'packer_build_log_$(Build.BuildNumber)_$(Year:yyyy).$(Month).$(DayOfMonth)'
+          publishLocation: 'Container'
