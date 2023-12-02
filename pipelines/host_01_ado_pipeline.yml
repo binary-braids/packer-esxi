@@ -79,19 +79,6 @@ stages:
           enableTelemetry: false
 
       - task: CmdLine@2
-        displayName: Enable Packer Log
-        inputs:
-          script: |
-            export PACKER_LOG=1
-
-      - task: CmdLine@2
-        displayName: Enable Packer Log Path
-        inputs:
-          script: |
-            export PACKER_LOG_PATH="packer_build.log"
-          workingDirectory: '$(System.DefaultWorkingDirectory)/build/${{ parameters.templateSelection }}/'
-
-      - task: CmdLine@2
         displayName: Run Packer Build
         inputs:
           script: |
