@@ -58,7 +58,7 @@ stages:
           enableTelemetry: false
 
       - task: Ansible@0
-        displayName: Packer Binary Install
+        displayName: Packer Build
         inputs:
           ansibleInterface: 'agentMachine'
           inventoriesAgentMachine: 'noInventory'
