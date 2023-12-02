@@ -18,6 +18,8 @@
   ansible.builtin.shell: |
     export PACKER_LOG=1
     export PACKER_LOG_PATH="packer_build.log"
+  args:
+    chdir: ./build/{{ template_selection }}/
 
 - name: Run Packer Init
   ansible.builtin.shell: |
