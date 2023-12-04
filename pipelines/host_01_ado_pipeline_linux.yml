@@ -1,6 +1,6 @@
 variables:
-- group: packer_esxi_variables_host_02
-- group: packer_esxi_variables_windows
+- group: packer_esxi_variables_host_01
+- group: packer_esxi_variables_linux
 
 parameters:
 - name: agentPool
@@ -10,12 +10,6 @@ parameters:
   values:
   - Self-Hosted
   - Oracle-Cloud
-- name: templateSelection
-  displayName: Packer Template Selection
-  default: windows
-  values:
-    - windows
-    - linux
 
 trigger:
 - none
@@ -58,19 +52,7 @@ stages:
       - task: replacetokens@5
         displayName: Replace Tokens
         inputs:
-          rootDirectory: '$(System.DefaultWorkingDirectory)/build/${{ parameters.templateSelection }}/'
-          targetFiles: '**/*.*'
-          encoding: 'auto'
-          tokenPattern: 'default'
-          writeBOM: true
-          actionOnMissing: 'warn'
-          enableTelemetry: false
-
-      - task: replacetokens@5
-        condition: eq('${{ parameters.templateSelection }}', 'windows' )
-        displayName: Replace Tokens for XML
-        inputs:
-          rootDirectory: '$(System.DefaultWorkingDirectory)/build/scripts/${{ parameters.templateSelection }}/'
+          rootDirectory: '$(System.DefaultWorkingDirectory)/build/linux/'
           targetFiles: '**/*.*'
           encoding: 'auto'
           tokenPattern: 'default'
@@ -84,4 +66,4 @@ stages:
           script: |
             packer init .
             packer build --force .
-          workingDirectory: '$(System.DefaultWorkingDirectory)/build/${{ parameters.templateSelection }}/'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/build/linux/'

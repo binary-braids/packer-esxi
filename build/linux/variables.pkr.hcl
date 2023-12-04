@@ -1,20 +1,56 @@
+variable "remote_host" {
+  type    = string
+}
+
+variable "remote_port" {
+  type    = number
+}
+
+variable "remote_username" {
+  type    = string
+}
+
+variable "remote_password" {
+  type    = string
+}
+
+variable "remote_cache_directory" {
+  type    = string
+}
+
+variable "remote_datastore" {
+  type    = string
+}
+
+variable "remote_output_directory" {
+  type    = string
+}
+
+variable "ssh_username" {
+  type    = string
+}
+
+variable "ssh_password" {
+  type    = string
+}
+
+variable "vm_name" {
+  type    = string
+}
+
 variable "boot_command" {
   type    = list(string)
 }
 
-variable "build_username" {
-  type    = string
+variable "cpus" {
+  type    = number
 }
 
-variable "build_password" {
+variable "memory" {
   type    = string
 }
 
 variable "cdrom_adapter_type" {
-  type    = string
-}
-
-variable "data_directory" {
   type    = string
 }
 
@@ -26,58 +62,30 @@ variable "disk_adapter_type" {
   type    = string
 }
 
+variable "disk_type_id" {
+  type    = string
+}
+
 variable "guest_os_type" {
   type    = string
 }
 
-variable "hardware_version" {
-  type    = number
-}
-
-variable "iso_checksum" {
-  type    = string
+variable "headless" {
+  type    = bool
 }
 
 variable "iso_url" {
   type    = string
 }
 
-variable "memory" {
-  type    = number
+variable "iso_checksum" {
+  type    = string
 }
 
 variable "network_adapter_type" {
   type    = string
 }
 
-variable "tools_upload_flavor" {
+variable "network_name" {
   type    = string
-}
-
-variable "tools_upload_path" {
-  type    = string
-}
-
-variable "vm_name" {
-  type    = string
-}
-
-variable "vmx_data" {
-  type = map(string)
-}
-
-variable "vm_guest_os_language" {
-  type    = string
-}
-
-variable "vm_guest_os_keyboard" {
-  type    = string
-}
-
-variable "vm_guest_os_timezone" {
-  type    = string
-}
-
-variable "vm_headless" {
-  type    = bool
 }
