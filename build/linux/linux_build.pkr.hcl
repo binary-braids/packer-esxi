@@ -13,8 +13,6 @@ source "vmware-iso" "linux" {
   ssh_password              = var.ssh_password
   ssh_timeout               = "8h"
 
-
-  floppy_files              = var.floppy_files
   vm_name                   = var.vm_name
   boot_command              = var.boot_command
   boot_wait                 = "10s"
