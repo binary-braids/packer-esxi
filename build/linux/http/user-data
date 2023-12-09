@@ -1,31 +1,33 @@
 #cloud-config
 autoinstall:
   version: 1
+  early-commands:
+  - sudo systemctl stop ssh
   locale: en_ZA
   keyboard:
     layout: us
-  ssh:
-    install-server: true
-    allow-pw: true
   apt:
   primary:
     - arches: [default]
       uri: http://za.archive.ubuntu.com/ubuntu/
-  package_update: true
-  package_upgrade: true
   storage:
     layout:
       name: lvm
-  preserve_hostname: false
-  hostname: packerubuntu
+  identity: 
+    hostname: packerubuntu
+    username: #{ssh_username}#
+    password: #{ssh_password}#
+  ssh:
+    install-server: yes
+    allow-pw: true
+  user-data:
+    disable_root: false
+  late-commands:
+    - echo '${guest_username} ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/${guest_username}
+    - sudo lvm lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv
+    - sudo resize2fs -p /dev/mapper/ubuntu--vg-ubuntu--lv
   timezone: Africa/Johannesburg
   users:
-    - name: #{ssh_username}#
-      passwd: #{ssh_password}#
-      groups: users, admin, wheel
-      lock-passwd: false
-      sudo: ALL=(ALL) NOPASSWD:ALL
-      shell: /bin/bash
     - name: ansible
       gecos: Ansible User
       groups: users, admin, wheel
