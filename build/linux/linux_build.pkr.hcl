@@ -42,6 +42,32 @@ source "vmware-iso" "linux" {
 build {
   sources = ["source.vmware-iso.linux"]
 
+  provisioner "file" {
+    destination = "/tmp/provision.sh"
+    source      = "../scripts/linux/provision.sh"
+  }
+
+  provisioner "shell" {
+    execute_command   = "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'"
+    expect_disconnect = true
+    inline            = ["chmod +x /tmp/provision.sh", "/tmp/provision.sh", "sync;sync;reboot"]
+    inline_shebang    = "/bin/sh -x"
+  }
+
+  provisioner "file" {
+    destination = "/tmp/zeroing.sh"
+    source      = "../scripts/linux/zeroing.sh"
+  } 
+
+  provisioner "shell" {
+    execute_command = "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'"
+    inline          = ["echo Last Phase",
+    "chmod +x /tmp/zeroing.sh",
+    "/tmp/zeroing.sh",
+    "/bin/rm -rfv /tmp/*"]
+    inline_shebang  = "/bin/sh -x"
+  }
+
   provisioner "shell" {
     inline = [
       "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for Cloud-Init...'; sleep 1; done" 
