@@ -23,7 +23,7 @@ autoinstall:
   user-data:
     disable_root: false
   late-commands:
-    - echo '${guest_username} ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/${guest_username}
+    - echo '#{ssh_username}# ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/#{ssh_username}#
     - sudo lvm lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv
     - sudo resize2fs -p /dev/mapper/ubuntu--vg-ubuntu--lv
   timezone: Africa/Johannesburg
