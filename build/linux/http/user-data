@@ -15,19 +15,15 @@ autoinstall:
       name: lvm
   identity: 
     hostname: packerubuntu
-    username: #{ssh_username}#
-    password: #{ssh_password}#
+    username: "#{ssh_username}#"
+    password: "#{ssh_password}#"
+  timezone: Africa/Johannesburg
   ssh:
     install-server: yes
     allow-pw: true
   user-data:
     disable_root: false
-  late-commands:
-    - echo '#{ssh_username}# ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/#{ssh_username}#
-    - sudo lvm lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv
-    - sudo resize2fs -p /dev/mapper/ubuntu--vg-ubuntu--lv
-  timezone: Africa/Johannesburg
-  users:
+    users:
     - name: ansible
       gecos: Ansible User
       groups: users, admin, wheel
@@ -36,4 +32,8 @@ autoinstall:
       lock_passwd: true
       ssh_authorized_keys:
         - "#{ansible_ssh_key}#"
+  late-commands:
+    - echo '#{ssh_username}# ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/#{ssh_username}#
+    - sudo lvm lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv
+    - sudo resize2fs -p /dev/mapper/ubuntu--vg-ubuntu--lv
 
