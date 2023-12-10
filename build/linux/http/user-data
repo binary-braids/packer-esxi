@@ -10,12 +10,10 @@ autoinstall:
   ssh:
     install-server: yes
     allow-pw: true
-  user-data:
-    package_upgrade: true
-    timezone: Africa/Johannesburg
-    users:
+  users:
     - name: #{ssh_username}#
-      passwd: #{ssh_password}#
+      plain_text_passwd: #{ssh_password}#
+      lock_passwd: false
       groups: users, admin, wheel
       sudo: ALL=(ALL) NOPASSWD:ALL
     - name: ansible
@@ -26,4 +24,8 @@ autoinstall:
       lock_passwd: true
       ssh_authorized_keys:
         - "#{ansible_ssh_key}#"
+  user-data:
+    package_upgrade: true
+    timezone: Africa/Johannesburg
+
 
