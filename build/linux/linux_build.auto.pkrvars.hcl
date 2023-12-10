@@ -29,3 +29,6 @@ iso_checksum = "none"
 iso_url = "#{iso_url}#"
 network_adapter_type = "#{network_adapter_type}#"
 network_name = "#{network_name}#"
+scripts = [
+    "../scripts/linux/setup.sh"
+  ]

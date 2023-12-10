@@ -37,9 +37,6 @@ source "vmware-iso" "linux" {
   vnc_over_websocket        = "true"
   insecure_connection       = "true"
   shutdown_command          = "echo 'packerubuntu' | sudo -S shutdown -P now"
-  scripts                   = [
-    "../scripts/linux/setup.sh"
-  ]
 }
 
 build {
