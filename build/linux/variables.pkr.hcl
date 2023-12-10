@@ -89,7 +89,3 @@ variable "network_adapter_type" {
 variable "network_name" {
   type    = string
 }
-
-variable "scripts" {
-  type    = list(string)
-}

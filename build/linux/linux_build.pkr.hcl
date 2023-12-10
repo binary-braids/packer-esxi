@@ -42,8 +42,12 @@ source "vmware-iso" "linux" {
 build {
   sources = ["source.vmware-iso.linux"]
 
+  provisioner "file" {
+    source = "../scripts/linux/setup.sh"
+    destination = "/tmp/setup.sh"    
+  }
+
   provisioner "shell" {
-    scripts = var.scripts
-    expect_disconnect = true     
+    inline = ["sudo bash /tmp/setup.sh"]  
   }
 }
