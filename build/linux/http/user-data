@@ -1,5 +1,6 @@
 #cloud-config
 autoinstall:
+  version: 1
   hostname: pkr-ubuntu-2204
   timezone: Africa/Johannesburg
   locale: en_ZA
@@ -11,6 +12,8 @@ autoinstall:
   ssh:
     install-server: yes
     allow-pw: true
+  package_update: true
+  package_upgrade: true
   user-data:
     users:
     - name: #{ssh_username}#
@@ -26,8 +29,7 @@ autoinstall:
       lock_passwd: true
       ssh_authorized_keys:
         - #{ansible_ssh_key}#
-  package_update: true
-  package_upgrade: true
+
   
   
 
