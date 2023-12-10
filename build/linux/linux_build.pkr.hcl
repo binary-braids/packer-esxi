@@ -11,7 +11,7 @@ source "vmware-iso" "linux" {
   communicator              = "ssh"
   ssh_username              = var.ssh_username
   ssh_password              = var.ssh_password
-  ssh_timeout               = "20m"
+  ssh_timeout               = "2h"
 
   vm_name                   = var.vm_name
   boot_command              = var.boot_command
