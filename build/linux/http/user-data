@@ -28,8 +28,6 @@ autoinstall:
         - #{ansible_ssh_key}#
   package_update: true
   package_upgrade: true
-  rumcmd:
-    - sudo reboot
   
   
 

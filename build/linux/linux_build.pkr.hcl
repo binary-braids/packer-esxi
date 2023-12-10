@@ -37,40 +37,16 @@ source "vmware-iso" "linux" {
   vnc_over_websocket        = "true"
   insecure_connection       = "true"
   shutdown_command          = "echo 'packerubuntu' | sudo -S shutdown -P now"
+  scripts                   = [
+    "../scripts/linux/setup.sh"
+  ]
 }
 
 build {
   sources = ["source.vmware-iso.linux"]
 
   provisioner "shell" {
-    inline = [
-      "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for Cloud-Init...'; sleep 1; done" 
-    ]      
-  }
-
-  provisioner "file" {
-    destination = "/tmp/provision.sh"
-    source      = "../scripts/linux/provision.sh"
-  }
-
-  provisioner "shell" {
-    execute_command   = "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'"
-    expect_disconnect = true
-    inline            = ["chmod +x /tmp/provision.sh", "/tmp/provision.sh", "sync;sync;reboot"]
-    inline_shebang    = "/bin/sh -x"
-  }
-
-  provisioner "file" {
-    destination = "/tmp/zeroing.sh"
-    source      = "../scripts/linux/zeroing.sh"
-  } 
-
-  provisioner "shell" {
-    execute_command = "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'"
-    inline          = ["echo Last Phase",
-    "chmod +x /tmp/zeroing.sh",
-    "/tmp/zeroing.sh",
-    "/bin/rm -rfv /tmp/*"]
-    inline_shebang  = "/bin/sh -x"
+    scripts = var.scripts
+    expect_disconnect = true     
   }
 }
