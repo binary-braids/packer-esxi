@@ -11,7 +11,7 @@ source "vmware-iso" "linux" {
   communicator              = "ssh"
   ssh_username              = var.ssh_username
   ssh_password              = var.ssh_password
-  ssh_timeout               = "8h"
+  ssh_timeout               = "20m"
 
   vm_name                   = var.vm_name
   boot_command              = var.boot_command
@@ -42,6 +42,12 @@ source "vmware-iso" "linux" {
 build {
   sources = ["source.vmware-iso.linux"]
 
+  provisioner "shell" {
+    inline = [
+      "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for Cloud-Init...'; sleep 1; done" 
+    ]      
+  }
+
   provisioner "file" {
     destination = "/tmp/provision.sh"
     source      = "../scripts/linux/provision.sh"
@@ -66,11 +72,5 @@ build {
     "/tmp/zeroing.sh",
     "/bin/rm -rfv /tmp/*"]
     inline_shebang  = "/bin/sh -x"
-  }
-
-  provisioner "shell" {
-    inline = [
-      "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for Cloud-Init...'; sleep 1; done" 
-    ]      
   }
 }
