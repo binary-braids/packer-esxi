@@ -50,6 +50,17 @@ stages:
       - checkout: none
 
       - task: replacetokens@5
+        displayName: Replace Tokens for Cloud Init
+        inputs:
+          rootDirectory: '$(System.DefaultWorkingDirectory)/build/linux/http/'
+          targetFiles: 'user-data'
+          encoding: 'auto'
+          tokenPattern: 'default'
+          writeBOM: true
+          actionOnMissing: 'warn'
+          enableTelemetry: false
+
+      - task: replacetokens@5
         displayName: Replace Tokens
         inputs:
           rootDirectory: '$(System.DefaultWorkingDirectory)/build/linux/'
