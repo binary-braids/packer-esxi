@@ -9,6 +9,13 @@ autoinstall:
   storage:
     layout:
       name: lvm
+  network:
+    version: 2
+    ethernets:
+      alleths:
+        match:
+          name: e*
+        dhcp4: true
   ssh:
     install-server: yes
     allow-pw: true
