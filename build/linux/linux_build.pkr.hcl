@@ -28,6 +28,7 @@ source "vmware-iso" "linux" {
     "uefi.secureBoot.enabled" = "TRUE"
   }
   vmx_remove_ethernet_interfaces    = "true"
+  keep_registered                   = "true"
   headless                          = var.headless
   iso_checksum                      = var.iso_checksum
   iso_url                           = var.iso_url
