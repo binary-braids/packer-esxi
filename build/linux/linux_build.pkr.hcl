@@ -46,11 +46,12 @@ build {
 
   provisioner "file" {
     source = "../files/linux/regenerate_ssh_host_keys.service"
-    destination = "/etc/systemd/system/regenerate_ssh_host_keys.service"    
+    destination = "/tmp/regenerate_ssh_host_keys.service"    
   }
 
   provisioner "shell" {
     inline = [
+      "sudo mv /tmp/regenerate_ssh_host_keys.service /etc/systemd/system/regenerate_ssh_host_keys.service",
       "sudo systemctl daemon-reload",
       "sudo systemctl enable regenerate_ssh_host_keys.service"
       ]  
