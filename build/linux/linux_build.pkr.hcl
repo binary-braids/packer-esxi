@@ -45,6 +45,18 @@ build {
   sources = ["source.vmware-iso.linux"]
 
   provisioner "file" {
+    source = "../files/linux/regenerate_ssh_host_keys.service"
+    destination = "/etc/systemd/system/regenerate_ssh_host_keys.service"    
+  }
+
+  provisioner "shell" {
+    inline = [
+      "sudo systemctl daemon-reload"
+      "sudo systemctl enable regenerate_ssh_host_keys.service"
+      ]  
+  } 
+
+  provisioner "file" {
     source = "../scripts/linux/setup.sh"
     destination = "/tmp/setup.sh"    
   }
