@@ -51,7 +51,7 @@ build {
 
   provisioner "shell" {
     inline = [
-      "sudo systemctl daemon-reload"
+      "sudo systemctl daemon-reload",
       "sudo systemctl enable regenerate_ssh_host_keys.service"
       ]  
   } 
