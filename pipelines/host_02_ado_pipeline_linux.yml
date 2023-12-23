@@ -71,6 +71,21 @@ stages:
           actionOnMissing: 'warn'
           enableTelemetry: false
 
+      - task: SSH@0
+        displayName: Remove existing Packer artifact
+        inputs:
+          sshEndpoint: 'ESXI Host 02'
+          runOptions: inline
+          inline: |
+            VM_NAME="$(vm_name)"; 
+            VM_ID=$(vim-cmd vmsvc/getallvms | grep "$VM_NAME" | awk '{print $1}'); 
+            if [ -n "$VM_ID" ]; 
+            then echo "Found VM ID: $VM_ID"; 
+            vim-cmd vmsvc/destroy "$VM_ID"; 
+            echo "VM removed successfully."; 
+            else echo "VM not found or already removed."; 
+            fi
+
       - task: CmdLine@2
         displayName: Run Packer Build
         inputs:
