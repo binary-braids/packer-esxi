@@ -28,8 +28,8 @@ autoinstall:
       lock_passwd: false
       groups: users, admin, sudo
       sudo: ALL=(ALL) NOPASSWD:ALL
-    - name: ansible
-      gecos: Ansible User
+    - name: ansible-admin
+      gecos: Ansible Admin User
       groups: users, admin, wheel
       sudo: ALL=(ALL) NOPASSWD:ALL
       shell: /bin/bash
