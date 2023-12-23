@@ -52,7 +52,7 @@ stages:
       - task: replacetokens@5
         displayName: Replace Tokens
         inputs:
-          rootDirectory: '$(System.DefaultWorkingDirectory)/build/windows/'
+          rootDirectory: '$(System.DefaultWorkingDirectory)'
           targetFiles: '**/*.*'
           encoding: 'auto'
           tokenPattern: 'default'
@@ -70,6 +70,14 @@ stages:
           writeBOM: true
           actionOnMissing: 'warn'
           enableTelemetry: false
+
+      - task: Ansible@0
+        displayName: Remove Packer artifact
+        inputs:
+          ansibleInterface: 'agentMachine'
+          inventoriesAgentMachine: 'noInventory'
+          playbookPathOnAgentMachine: '$(System.DefaultWorkingDirectory)/packer_artifact_removal.yml'
+          failOnStdErr: false
 
       - task: CmdLine@2
         displayName: Run Packer Build

@@ -71,17 +71,6 @@ stages:
           actionOnMissing: 'warn'
           enableTelemetry: false
 
-      - task: replacetokens@5
-        displayName: Replace Tokens
-        inputs:
-          rootDirectory: '$(System.DefaultWorkingDirectory)/build/linux/'
-          targetFiles: '**/*.*'
-          encoding: 'auto'
-          tokenPattern: 'default'
-          writeBOM: true
-          actionOnMissing: 'warn'
-          enableTelemetry: false
-
       - task: Ansible@0
         displayName: Remove Packer artifact
         inputs:
