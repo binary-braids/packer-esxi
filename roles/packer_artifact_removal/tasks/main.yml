@@ -1,0 +1,8 @@
+- name: Remove Packer artifact
+  community.vmware.vmware_guest:
+    hostname: "#{remote_host}#"
+    username: "#{remote_username}#"
+    password: "#{remote_password}#"
+    name: "#{vm_name}#"
+    state: absent
+  delegate_to: localhost

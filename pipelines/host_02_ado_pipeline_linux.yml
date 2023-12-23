@@ -50,6 +50,17 @@ stages:
       - checkout: none
 
       - task: replacetokens@5
+        displayName: Replace Tokens
+        inputs:
+          rootDirectory: '$(System.DefaultWorkingDirectory)'
+          targetFiles: '**/*.*'
+          encoding: 'auto'
+          tokenPattern: 'default'
+          writeBOM: true
+          actionOnMissing: 'warn'
+          enableTelemetry: false
+
+      - task: replacetokens@5
         displayName: Replace Tokens for Cloud Init
         inputs:
           rootDirectory: '$(System.DefaultWorkingDirectory)/build/linux/http/'
@@ -71,20 +82,13 @@ stages:
           actionOnMissing: 'warn'
           enableTelemetry: false
 
-      - task: SSH@0
-        displayName: Remove existing Packer artifact
+      - task: Ansible@0
+        displayName: Remove Packer artifact
         inputs:
-          sshEndpoint: 'ESXI Host 02'
-          runOptions: inline
-          inline: |
-            VM_NAME="$(vm_name)"; 
-            VM_ID=$(vim-cmd vmsvc/getallvms | grep "$VM_NAME" | awk '{print $1}'); 
-            if [ -n "$VM_ID" ]; 
-            then echo "Found VM ID: $VM_ID"; 
-            vim-cmd vmsvc/destroy "$VM_ID"; 
-            echo "VM removed successfully."; 
-            else echo "VM not found or already removed."; 
-            fi
+          ansibleInterface: 'agentMachine'
+          inventoriesAgentMachine: 'noInventory'
+          playbookPathOnAgentMachine: '$(System.DefaultWorkingDirectory)/packer_artifact_removal.yml'
+          failOnStdErr: false
 
       - task: CmdLine@2
         displayName: Run Packer Build
