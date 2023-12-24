@@ -10,18 +10,38 @@ fi
 if [ -f /var/log/lastlog ]; then
 cat /dev/null > /var/log/lastlog
 fi
+
 # Cleans SSH keys.
 echo '> Cleaning SSH keys ...'
 rm -f /etc/ssh/ssh_host_*
+
 # Sets hostname to localhost.
 echo '> Setting hostname to localhost ...'
 cat /dev/null > /etc/hostname
 hostnamectl set-hostname localhost
+
 # Cleans apt-get.
 echo '> Cleaning apt-get ...'
 apt-get clean
+
 # Cleans the machine-id.
 echo '> Cleaning the machine-id ...'
 truncate -s 0 /etc/machine-id
 rm /var/lib/dbus/machine-id
 ln -s /etc/machine-id /var/lib/dbus/machine-id
+
+# Clean cloud-init data
+# cloud init: move files and change permissions
+mv /tmp/cloud-init/* /etc/cloud/cloud.cfg.d/
+chown -R root:root /etc/cloud/cloud.cfg.d/
+
+# cleanup cloud-init data
+rm -rf /var/lib/cloud/*
+
+ln -s /var/lib/cloud/instances /var/lib/cloud/instance
+
+# cleanup cloud-init logs
+rm -rf /var/log/cloud-init*
+
+# cleanup tmp files
+rm -rf /tmp/cloud-init
