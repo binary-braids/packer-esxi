@@ -44,6 +44,12 @@ source "vmware-iso" "linux" {
 build {
   sources = ["source.vmware-iso.linux"]
 
+  provisioner "shell" {
+    inline = [
+      "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done"
+    ]  
+  } 
+
   provisioner "file" {
     source = "../files/linux/regenerate_ssh_host_keys.service"
     destination = "/tmp/regenerate_ssh_host_keys.service"    
@@ -54,7 +60,7 @@ build {
       "sudo mv /tmp/regenerate_ssh_host_keys.service /etc/systemd/system/regenerate_ssh_host_keys.service",
       "sudo systemctl daemon-reload",
       "sudo systemctl enable regenerate_ssh_host_keys.service"
-      ]  
+    ]  
   } 
 
   provisioner "file" {
