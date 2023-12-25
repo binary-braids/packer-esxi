@@ -36,3 +36,6 @@ rm -rf /var/lib/cloud/*
 ln -s /var/lib/cloud/instances /var/lib/cloud/instance
 rm -rf /var/log/cloud-init*
 cloud-init clean
+
+echo '> Reconfigure cloud-init ...'
+echo 'datasource_list: [ "VMware" ]' > /etc/cloud/cloud.cfg.d/00-ovf-data.cfg
