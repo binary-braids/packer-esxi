@@ -29,10 +29,3 @@ echo '> Cleaning the machine-id ...'
 truncate -s 0 /etc/machine-id
 rm /var/lib/dbus/machine-id
 ln -s /etc/machine-id /var/lib/dbus/machine-id
-
-# Clean cloud-init data
-echo '> Cleaning cloud-init data ...'
-rm -rf /var/lib/cloud/*
-ln -s /var/lib/cloud/instances /var/lib/cloud/instance
-rm -rf /var/log/cloud-init*
-cloud-init clean
