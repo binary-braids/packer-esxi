@@ -79,9 +79,9 @@ build {
       "sudo rm -f /etc/cloud/cloud.cfg.d/99-installer.cfg",
       "sudo rm -f /etc/cloud/cloud.cfg.d/subiquity-disable-cloudinit-networking.cfg",
       "echo 'disable_vmware_customization: false' | sudo tee -a /etc/cloud/cloud.cfg",
-      "sudo sed -i 's|nocloud-net;seedfrom=http://.*/|vmware|' /etc/default/grub",
+      "sudo sed -i 's|nocloud-net;s=http://.*/|vmware|' /etc/default/grub",
       "sudo update-grub",
       "sudo cloud-init clean"
-    ]  
+    ]
   }
 }

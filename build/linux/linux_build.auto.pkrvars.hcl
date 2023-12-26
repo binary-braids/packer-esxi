@@ -11,23 +11,11 @@ ssh_password = "#{ssh_password}#"
 
 vm_name = "#{vm_name}#"
 boot_command = [
-  "<esc><esc><esc><esc>e<wait>",
-  "<del><del><del><del><del><del><del><del><del><del>",
-  "<del><del><del><del><del><del><del><del><del><del>",
-  "<del><del><del><del><del><del><del><del><del><del>",
-  "<del><del><del><del><del><del><del><del><del><del>",
-  "<del><del><del><del><del><del><del><del><del><del>",
-  "<del><del><del><del><del><del><del><del><del><del>",
-  "<del><del><del><del><del><del><del><del><del><del>",
-  "<del><del><del><del><del><del><del><del><del><del>",
-  "<del><del><del><del><del><del><del><del><del><del>",
-  "<del><del><del><del><del><del><del><del><del><del>",
-  "<del><del><del><del><del><del><del><del><del><del>",
-  "<del><del><del>",
-  "linux /casper/vmlinuz --- autoinstall ds=\"nocloud-net;seedfrom=http://[{{.HTTPIP}}]:{{.HTTPPort}}/\"<enter><wait>",
-  "initrd /casper/initrd<enter><wait>",
-  "boot<enter>",
-  "<enter><f10><wait>"
+  "<spacebar><wait><spacebar><wait><spacebar><wait><spacebar><wait><spacebar><wait>",
+  "e<wait>",
+  "<down><down><down><end>",
+  " autoinstall ds=nocloud-net\\;s=http://{{ .HTTPIP }}:{{ .HTTPPort }}/",
+  "<f10>"
 ]
 cpus = #{cpus}#
 memory = "#{memory}#"
