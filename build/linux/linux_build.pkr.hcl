@@ -35,6 +35,7 @@ source "vmware-iso" "linux" {
   http_directory                    = "http"
   network_adapter_type              = var.network_adapter_type
   network_name                      = var.network_name
+  tools_upload_flavor               = "linux"
   skip_export                       = "true"
   vnc_over_websocket                = "true"
   insecure_connection               = "true"

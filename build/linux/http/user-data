@@ -1,6 +1,9 @@
 #cloud-config
 autoinstall:
   version: 1
+  early-commands:
+  # Stop SSH to prevent Packer from connecting too early
+  - systemctl stop ssh
   hostname: pkr-ubuntu-2204
   timezone: Africa/Johannesburg
   locale: en_ZA
@@ -21,6 +24,13 @@ autoinstall:
     allow-pw: true
   package_update: true
   package_upgrade: true
+  packages:
+    - open-vm-tools
+    - python3
+  late-commands:
+    - curtin in-target --target=/target -- apt-get update
+    - curtin in-target --target=/target -- apt-get upgrade --yes
+    - curtin in-target --target=/target -- sudo cloud-init clean
   user-data:
     users:
     - name: #{ssh_username}#
