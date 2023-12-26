@@ -27,10 +27,6 @@ autoinstall:
   packages:
     - open-vm-tools
     - python3
-  late-commands:
-    - curtin in-target --target=/target -- apt-get update
-    - curtin in-target --target=/target -- apt-get upgrade --yes
-    - curtin in-target --target=/target -- sudo cloud-init clean
   user-data:
     users:
     - name: #{ssh_username}#
