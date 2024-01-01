@@ -12,6 +12,7 @@ autoinstall:
   storage:
     layout:
       name: lvm
+      sizing-policy: all
   network:
     version: 2
     ethernets:
@@ -34,6 +35,14 @@ autoinstall:
       lock_passwd: false
       groups: users, admin, sudo
       sudo: ALL=(ALL) NOPASSWD:ALL
+    - name: #{server_admin_username}
+      gecos: Server Admin User
+      groups: users, admin, wheel
+      sudo: ALL=(ALL) NOPASSWD:ALL
+      shell: /bin/bash
+      lock_passwd: true
+      ssh_authorized_keys:
+        - #{server_admin_ssh_key}#   
     - name: ansible-admin
       gecos: Ansible Admin User
       groups: users, admin, wheel
