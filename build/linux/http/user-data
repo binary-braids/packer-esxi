@@ -35,7 +35,7 @@ autoinstall:
       lock_passwd: false
       groups: users, admin, sudo
       sudo: ALL=(ALL) NOPASSWD:ALL
-    - name: #{server_admin_username}
+    - name: #{server_admin_username}#
       gecos: Server Admin User
       groups: users, admin, wheel
       sudo: ALL=(ALL) NOPASSWD:ALL
