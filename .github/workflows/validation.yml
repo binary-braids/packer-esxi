@@ -32,7 +32,7 @@ jobs:
 
         for folder in "${subfolders[@]}"; do
           echo "Processing ${folder}..."
-          cd "build/${folder}" || { echo "Failed to enter build/${folder} directory"; exit 1; }
+          cd "./build/${folder}" || { echo "Failed to enter build/${folder} directory"; exit 1; }
 
           # Run packer init to initialize the Packer template
           packer init .
@@ -43,7 +43,6 @@ jobs:
           # Navigate back to the parent directory
           cd ../..
         done
-      working-directory: ./build
 
   changelog:
     name: Generate Changelog 🗒️
