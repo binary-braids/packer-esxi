@@ -1,103 +1,103 @@
 variable "remote_host" {
-  type    = string
+  type = string
 }
 
 variable "remote_port" {
-  type    = number
+  type = number
 }
 
 variable "remote_username" {
-  type    = string
+  type = string
 }
 
 variable "remote_password" {
-  type    = string
+  type = string
 }
 
 variable "remote_cache_directory" {
-  type    = string
+  type = string
 }
 
 variable "remote_datastore" {
-  type    = string
+  type = string
 }
 
 variable "remote_output_directory" {
-  type    = string
+  type = string
 }
 
 variable "winrm_username" {
-  type    = string
+  type = string
 }
 
 variable "winrm_password" {
-  type    = string
+  type = string
 }
 
 variable "floppy_files" {
-  type    = list(string)
+  type = list(string)
 }
 
 variable "vm_name" {
-  type    = string
+  type = string
 }
 
 variable "boot_command" {
-  type    = list(string)
+  type = list(string)
 }
 
 variable "cpus" {
-  type    = number
+  type = number
 }
 
 variable "memory" {
-  type    = string
+  type = string
 }
 
 variable "cdrom_adapter_type" {
-  type    = string
+  type = string
 }
 
 variable "disk_size" {
-  type    = number
+  type = number
 }
 
 variable "disk_adapter_type" {
-  type    = string
+  type = string
 }
 
 variable "disk_type_id" {
-  type    = string
+  type = string
 }
 
 variable "guest_os_type" {
-  type    = string
+  type = string
 }
 
 variable "headless" {
-  type    = bool
+  type = bool
 }
 
 variable "iso_url" {
-  type    = string
+  type = string
 }
 
 variable "iso_checksum" {
-  type    = string
+  type = string
 }
 
 variable "network_adapter_type" {
-  type    = string
+  type = string
 }
 
 variable "network_name" {
-  type    = string
+  type = string
 }
 
 variable "upgrade_timeout" {
-  type    = string
+  type = string
 }
 
 variable "sysprep_unattended" {
-  type    = string
+  type = string
 }
