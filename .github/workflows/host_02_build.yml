@@ -1,0 +1,64 @@
+name: Host 02 Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      os_type:
+        type: choice
+        description: Choose OS type for Packer build
+        options:
+          - linux
+          - windows 
+
+env:
+  LINUX_VM_NAME: pkr-ubuntu-2204
+  WINDOWS_VM_NAME: pkr-win2022-dc          
+          
+jobs:
+  init_and_build:
+    name: Packer Build Job 🏗️
+    runs-on: Self-Hosted
+    environment: "Host 02"
+
+    steps:
+
+      - name: Checkout 🔔
+        uses: actions/checkout@v4
+
+      - name: Install Ansible 🖥️
+        run: |
+          python3 -m pip install --user ansible
+
+      - name: Install Packer 🖥️
+        run: |
+          ansible-playbook packer_install.yml
+        working-directory: ./ansible
+
+      - name: Map Secrets to Environment Variables 🗺️ 
+        uses: oNaiPs/secrets-to-env-action@v1.5
+        with:
+            secrets: ${{ toJSON(secrets) }}        
+
+      - name: Replace Tokens 🪙
+        uses: cschleiden/replace-tokens@v1.3
+        with:
+          files: '["./**/*"]'
+
+      - name: Remove existing Packer artifacts 📦
+        run: | 
+          if [[ ${{ github.event.inputs.os_type }} == "linux" ]]; then
+            PACKER_VM_NAME="${{ env.LINUX_VM_NAME }}"
+          else  
+            PACKER_VM_NAME="${{ env.WINDOWS_VM_NAME }}"
+
+          ansible-playbook packer_artifact_removal.yml --extra-vars "VM_NAME=$PACKER_VM_NAME"
+        working-directory: ./ansible
+
+      - name: Run Packer Init and Build 🚀
+        id: terraformPlan
+        run: |
+          echo "Running Packer build for OS Type: ${{ github.event.inputs.os_type }}"
+          packer init .
+          packer build --force .
+        working-directory: ./build/${{ github.event.inputs.os_type }}
+

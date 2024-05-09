@@ -23,22 +23,22 @@
                 <NetworkLocation>Home</NetworkLocation>
                 <HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
             </OOBE>
-            <TimeZone>UTC</TimeZone>
+            <TimeZone>SAST</TimeZone>
             <UserAccounts>
                 <AdministratorPassword>
-                    <Value>#{winrm_password}#</Value>
+                    <Value>#{WINRM_PASSWORD}#</Value>
                     <PlainText>true</PlainText>
                 </AdministratorPassword>
                 <LocalAccounts>
                     <LocalAccount wcm:action="add">
                         <Password>
-                            <Value>#{winrm_password}#</Value>
+                            <Value>#{WINRM_PASSWORD}#</Value>
                             <PlainText>true</PlainText>
                         </Password>
                         <Group>administrators</Group>
-                        <DisplayName>#{winrm_username}#</DisplayName>
-                        <Name>#{winrm_username}#</Name>
-                        <Description>#{winrm_username}#</Description>
+                        <DisplayName>Administrator</DisplayName>
+                        <Name>Administrator</Name>
+                        <Description>Administrator</Description>
                     </LocalAccount>
                 </LocalAccounts>
             </UserAccounts>

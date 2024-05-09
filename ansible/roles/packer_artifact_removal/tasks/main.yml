@@ -1,9 +1,9 @@
 - name: Remove Packer artifact
   community.vmware.vmware_guest:
-    hostname: "#{remote_host}#"
-    username: "#{remote_username}#"
-    password: "#{remote_password}#"
+    hostname: "#{REMOTE_HOST}#"
+    username: "#{REMOTE_USERNAME}#"
+    password: "#{REMOTE_PASSWORD}#"
     validate_certs: false
-    name: "#{vm_name}#"
+    name: "{{ VM_NAME }}"
     state: absent
   delegate_to: localhost
