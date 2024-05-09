@@ -8,7 +8,7 @@
 
 # Packer ESXI
 
-This repository contains Packer builds for my ESXI homelab. The [github.com/hashicorp/vmware](https://github.com/hashicorp/packer-plugin-vmware) plugin is being used which invokves the `vmware-iso` builder to build the images.
+This repository contains Packer builds for my ESXI homelab. The [github.com/hashicorp/vmware](https://github.com/hashicorp/packer-plugin-vmware) plugin is being used which invokes the `vmware-iso` builder to build the images.
 
 ## OS Versions
 

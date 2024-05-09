@@ -22,7 +22,7 @@ jobs:
 
     - name: Run Packer Format 📝
       run: |
-        packer fmt -recusrive .
+        packer fmt -recursive .
       working-directory: ./build
 
     - name: Run Packer Init and Validate ✅
@@ -32,7 +32,7 @@ jobs:
 
         for folder in "${subfolders[@]}"; do
           echo "Processing ${folder}..."
-          cd "build/${folder}" || { echo "Failed to enter build/${folder} directory"; exit 1; }
+          cd "./build/${folder}" || { echo "Failed to enter build/${folder} directory"; exit 1; }
 
           # Run packer init to initialize the Packer template
           packer init .
@@ -43,7 +43,12 @@ jobs:
           # Navigate back to the parent directory
           cd ../..
         done
-      working-directory: ./build
+
+    - name: Commit Packer fmt changes    
+      uses: EndBug/add-and-commit@v9
+      with:
+        default_author: github_actions
+        message: "🤖 Automated commit for Workflow Run ID: ${{ github.run_id }} in Branch: ${{ github.head_ref }}"       
 
   changelog:
     name: Generate Changelog 🗒️
