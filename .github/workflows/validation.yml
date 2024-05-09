@@ -1,7 +1,7 @@
 name: Packer Validation CI
 
 on:
-  workflow_dispatch:
+  pull_request
 
 permissions:
   contents: write
