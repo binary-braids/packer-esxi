@@ -22,7 +22,7 @@ jobs:
 
     - name: Run Packer Format 📝
       run: |
-        packer fmt -recusrive .
+        packer fmt -recursive .
       working-directory: ./build
 
     - name: Run Packer Init and Validate ✅
