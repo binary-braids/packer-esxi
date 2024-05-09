@@ -44,6 +44,12 @@ jobs:
           cd ../..
         done
 
+    - name: Commit Packer fmt changes    
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: "🤖 Automated commit for Workflow Run ID: ${{ github.run_id }} in Branch: ${{ github.head_ref }}"
+        commit_user_email: github-actions[bot]@users.noreply.github.com
+
   changelog:
     name: Generate Changelog 🗒️
     runs-on: ubuntu-latest
