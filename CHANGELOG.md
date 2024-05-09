@@ -1,4 +1,13 @@
-# 0.1.0 (2024-05-09)
+## [0.1.1](https://github.com/binary-braids/packer-esxi/compare/v0.1.0...v0.1.1) (2024-05-09)
+
+
+### Bug Fixes
+
+* Add Git Push action to validation workflow ([249c4cb](https://github.com/binary-braids/packer-esxi/commit/249c4cb5ab71be934ac6dcb3cd5688ae0d46e182))
+
+
+
+# [0.1.0](https://github.com/binary-braids/packer-esxi/compare/ca279024cbb4f4efb815159fe45b5979753d2f98...v0.1.0) (2024-05-09)
 
 
 ### Bug Fixes
