@@ -1,4 +1,4 @@
-name: Host 01 Build CI
+name: Host 01 Build
 
 on:
   workflow_dispatch:
@@ -9,7 +9,11 @@ on:
         options:
           - linux
           - windows 
-    
+
+env:
+  LINUX_VM_NAME: pkr-ubuntu-2204
+  WINDOWS_VM_NAME: pkr-win2022-dc          
+          
 jobs:
   init_and_build:
     name: Packer Build Job 🏗️
@@ -42,7 +46,12 @@ jobs:
 
       - name: Remove existing Packer artifacts 📦
         run: | 
-          ansible-playbook packer_artifact_removal.yml
+          if [[ ${{ github.event.inputs.os_type }} == "linux" ]]; then
+            PACKER_VM_NAME="${{ env.LINUX_VM_NAME }}"
+          else  
+            PACKER_VM_NAME="${{ env.WINDOWS_VM_NAME }}"
+
+          ansible-playbook packer_artifact_removal.yml --extra-vars "VM_NAME=$PACKER_VM_NAME"
         working-directory: ./ansible
 
       - name: Run Packer Init and Build 🚀

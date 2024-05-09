@@ -82,11 +82,11 @@
             </ImageInstall>
             <UserData>
                 <ProductKey>
-                  <Key>#{product_key}#</Key>
+                  <Key>#{PRODUCT_KEY}#</Key>
                     <WillShowUI>Never</WillShowUI>
                 </ProductKey>
                 <AcceptEula>true</AcceptEula>
-                <FullName>#{winrm_username}#</FullName>
+                <FullName>Administrator</FullName>
                 <Organization></Organization>
             </UserData>
         </component>
@@ -105,7 +105,7 @@
                     <PlainText>true</PlainText>
                 </Password>
                 <Enabled>true</Enabled>
-                <Username>#{WINRM_USERNAME}#</Username>
+                <Username>Administrator</Username>
             </AutoLogon>
             <FirstLogonCommands>
                 <SynchronousCommand wcm:action="add">

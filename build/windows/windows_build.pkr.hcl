@@ -45,7 +45,7 @@ build {
 
   provisioner "powershell" {
     elevated_password = var.winrm_password
-    elevated_user     = "#{winrm_username}#"
+    elevated_user     = var.winrm_username
     script            = "../scripts/windows/phase-1.ps1"
   }
 
@@ -55,7 +55,7 @@ build {
 
   provisioner "powershell" {
     elevated_password = var.winrm_password
-    elevated_user     = "#{winrm_username}#"
+    elevated_user     = var.winrm_username
     script            = "../scripts/windows/phase-2.ps1"
   }
 
@@ -67,7 +67,7 @@ build {
 
   provisioner "powershell" {
     elevated_password = var.winrm_password
-    elevated_user     = "#{winrm_username}#"
+    elevated_user     = var.winrm_username
     script            = "../scripts/windows/phase-3.windows-updates.ps1"
   }
 
@@ -79,13 +79,13 @@ build {
 
   provisioner "powershell" {
     elevated_password = var.winrm_password
-    elevated_user     = "#{winrm_username}#"
+    elevated_user     = var.winrm_username
     inline            = ["Write-Host \"Pausing before next stage\";Start-Sleep -Seconds ${var.upgrade_timeout}"]
   }
 
   provisioner "powershell" {
     elevated_password = var.winrm_password
-    elevated_user     = "#{winrm_username}#"
+    elevated_user     = var.winrm_username
     pause_before      = "30s"
     script            = "../scripts/windows/phase-3.windows-updates.ps1"
   }
@@ -98,19 +98,19 @@ build {
 
   provisioner "powershell" {
     elevated_password = var.winrm_password
-    elevated_user     = "#{winrm_username}#"
+    elevated_user     = var.winrm_username
     inline            = ["Write-Host \"Pausing before next stage\";Start-Sleep -Seconds ${var.upgrade_timeout}"]
   }
 
   provisioner "powershell" {
     elevated_password = var.winrm_password
-    elevated_user     = "#{winrm_username}#"
+    elevated_user     = var.winrm_username
     inline            = ["Write-Host \"Pausing before next stage\";Start-Sleep -Seconds ${var.upgrade_timeout}"]
   }
 
   provisioner "powershell" {
     elevated_password = var.winrm_password
-    elevated_user     = "#{winrm_username}#"
+    elevated_user     = var.winrm_username
     script            = "../scripts/windows/phase-4d.windows-compression.ps1"
   }
 

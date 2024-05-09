@@ -23,7 +23,7 @@
                 <NetworkLocation>Home</NetworkLocation>
                 <HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
             </OOBE>
-            <TimeZone>UTC</TimeZone>
+            <TimeZone>SAST</TimeZone>
             <UserAccounts>
                 <AdministratorPassword>
                     <Value>#{WINRM_PASSWORD}#</Value>
@@ -36,9 +36,9 @@
                             <PlainText>true</PlainText>
                         </Password>
                         <Group>administrators</Group>
-                        <DisplayName>#{WINRM_USERNAME}#</DisplayName>
-                        <Name>#{WINRM_USERNAME}#</Name>
-                        <Description>#{WINRM_USERNAME}#</Description>
+                        <DisplayName>Administrator</DisplayName>
+                        <Name>Administrator</Name>
+                        <Description>Administrator</Description>
                     </LocalAccount>
                 </LocalAccounts>
             </UserAccounts>

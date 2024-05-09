@@ -4,6 +4,6 @@
     username: "#{REMOTE_USERNAME}#"
     password: "#{REMOTE_PASSWORD}#"
     validate_certs: false
-    name: "#{VM_NAME}#"
+    name: "{{ VM_NAME }}"
     state: absent
   delegate_to: localhost
