@@ -26,19 +26,19 @@
             <TimeZone>UTC</TimeZone>
             <UserAccounts>
                 <AdministratorPassword>
-                    <Value>#{winrm_password}#</Value>
+                    <Value>#{WINRM_PASSWORD}#</Value>
                     <PlainText>true</PlainText>
                 </AdministratorPassword>
                 <LocalAccounts>
                     <LocalAccount wcm:action="add">
                         <Password>
-                            <Value>#{winrm_password}#</Value>
+                            <Value>#{WINRM_PASSWORD}#</Value>
                             <PlainText>true</PlainText>
                         </Password>
                         <Group>administrators</Group>
-                        <DisplayName>#{winrm_username}#</DisplayName>
-                        <Name>#{winrm_username}#</Name>
-                        <Description>#{winrm_username}#</Description>
+                        <DisplayName>#{WINRM_USERNAME}#</DisplayName>
+                        <Name>#{WINRM_USERNAME}#</Name>
+                        <Description>#{WINRM_USERNAME}#</Description>
                     </LocalAccount>
                 </LocalAccounts>
             </UserAccounts>
