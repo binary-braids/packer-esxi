@@ -1,3 +1,12 @@
+## [0.1.5](https://github.com/binary-braids/packer-esxi/compare/v0.1.4...v0.1.5) (2024-05-11)
+
+
+### Bug Fixes
+
+* ignore empty commits ([ea53c11](https://github.com/binary-braids/packer-esxi/commit/ea53c1177dc54cd8e80bbaaf2d936a94e3f209ac))
+
+
+
 ## [0.1.4](https://github.com/binary-braids/packer-esxi/compare/v0.1.3...v0.1.4) (2024-05-11)
 
 
