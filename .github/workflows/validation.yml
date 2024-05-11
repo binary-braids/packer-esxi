@@ -96,7 +96,7 @@ jobs:
         git-user-name: "github-actions[bot]"
         git-user-email: "github-actions[bot]@users.noreply.github.com"
         git-branch: "${{ github.head_ref }}"
-        skip-on-empty: "false"
+        skip-on-empty: "true"
         release-count: 10
         version-file: package.yaml
         create-summary: true      
