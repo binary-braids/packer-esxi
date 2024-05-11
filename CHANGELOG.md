@@ -1,3 +1,30 @@
+## [0.1.5](https://github.com/binary-braids/packer-esxi/compare/v0.1.4...v0.1.5) (2024-05-11)
+
+
+### Bug Fixes
+
+* ignore empty commits ([ea53c11](https://github.com/binary-braids/packer-esxi/commit/ea53c1177dc54cd8e80bbaaf2d936a94e3f209ac))
+
+
+
+## [0.1.4](https://github.com/binary-braids/packer-esxi/compare/v0.1.3...v0.1.4) (2024-05-11)
+
+
+### Bug Fixes
+
+* add GitHub App token to conventional commits step ([e3a0a8d](https://github.com/binary-braids/packer-esxi/commit/e3a0a8d7ef2c9349982852c9547b28839521d5b9))
+
+
+
+## [0.1.3](https://github.com/binary-braids/packer-esxi/compare/v0.1.2...v0.1.3) (2024-05-11)
+
+
+### Bug Fixes
+
+* Update validation workflow steps ([de589a8](https://github.com/binary-braids/packer-esxi/commit/de589a896a3a7e4cc1d64f18c51621bc29b9ef11))
+
+
+
 ## [0.1.2](https://github.com/binary-braids/packer-esxi/compare/v0.1.1...v0.1.2) (2024-05-09)
 
 
