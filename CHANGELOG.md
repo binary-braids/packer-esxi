@@ -1,3 +1,12 @@
+## [0.1.3](https://github.com/binary-braids/packer-esxi/compare/v0.1.2...v0.1.3) (2024-05-11)
+
+
+### Bug Fixes
+
+* Update validation workflow steps ([de589a8](https://github.com/binary-braids/packer-esxi/commit/de589a896a3a7e4cc1d64f18c51621bc29b9ef11))
+
+
+
 ## [0.1.2](https://github.com/binary-braids/packer-esxi/compare/v0.1.1...v0.1.2) (2024-05-09)
 
 
