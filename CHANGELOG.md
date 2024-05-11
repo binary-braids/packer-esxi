@@ -1,3 +1,12 @@
+# [0.2.0](https://github.com/binary-braids/packer-esxi/compare/v0.1.7...v0.2.0) (2024-05-11)
+
+
+### Features
+
+* Add additional Renovate configuration ([ae20600](https://github.com/binary-braids/packer-esxi/commit/ae20600f3bbe715e2ac958e369ec6c2faea50d66))
+
+
+
 ## [0.1.7](https://github.com/binary-braids/packer-esxi/compare/v0.1.6...v0.1.7) (2024-05-11)
 
 
