@@ -1,7 +1,7 @@
 name: Packer Validation CI
 
 on:
-  pull_request
+  pull_request:
 
 permissions:
   contents: write
@@ -12,10 +12,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Generate GitHub App Token 🪙
+      uses: tibdex/github-app-token@v2
+      id: generate-token
+      with:
+        app_id: ${{ secrets.BRAID_BOT_APP_ID }}
+        private_key: ${{ secrets.BRAID_BOT_PRIVATE_KEY }}
+
     - name: Checkout 🔔
       uses: actions/checkout@v4
       with:
         ref: ${{ github.event.pull_request.head.ref }}
+        token: ${{ steps.generate-token.outputs.token }}
 
     - name: Setup Packer 🖥️
       uses: hashicorp/setup-packer@main
@@ -44,11 +52,19 @@ jobs:
           cd ../..
         done
 
-    - name: Commit Packer fmt changes    
+    - name: Check for changed files 🕵️
+      uses: tj-actions/verify-changed-files@v20
+      id: verify-changed-files
+
+    - name: Commit Packer fmt changes 🖊️
+      if: steps.verify-changed-files.outputs.files_changed == 'true'
       uses: EndBug/add-and-commit@v9
       with:
         default_author: github_actions
-        message: "🤖 Automated commit for Workflow Run ID: ${{ github.run_id }} in Branch: ${{ github.head_ref }}"       
+        message: | 
+          "🤖 Automated commit for Workflow Run ID: ${{ github.run_id }} in Branch: ${{ github.head_ref }}" 
+          
+          "Changed files: $CHANGED_FILES"
 
   changelog:
     name: Generate Changelog 🗒️
