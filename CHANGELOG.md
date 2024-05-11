@@ -1,3 +1,12 @@
+## [0.1.4](https://github.com/binary-braids/packer-esxi/compare/v0.1.3...v0.1.4) (2024-05-11)
+
+
+### Bug Fixes
+
+* add GitHub App token to conventional commits step ([e3a0a8d](https://github.com/binary-braids/packer-esxi/commit/e3a0a8d7ef2c9349982852c9547b28839521d5b9))
+
+
+
 ## [0.1.3](https://github.com/binary-braids/packer-esxi/compare/v0.1.2...v0.1.3) (2024-05-11)
 
 
