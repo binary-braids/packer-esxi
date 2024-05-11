@@ -1,3 +1,12 @@
+## [0.1.7](https://github.com/binary-braids/packer-esxi/compare/v0.1.6...v0.1.7) (2024-05-11)
+
+
+### Bug Fixes
+
+* re-add custom token generation ([4632fcd](https://github.com/binary-braids/packer-esxi/commit/4632fcd32e2c57c7351c8b2a27876118c25c933a))
+
+
+
 ## [0.1.6](https://github.com/binary-braids/packer-esxi/compare/v0.1.5...v0.1.6) (2024-05-11)
 
 
