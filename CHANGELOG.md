@@ -1,3 +1,12 @@
+## [0.1.6](https://github.com/binary-braids/packer-esxi/compare/v0.1.5...v0.1.6) (2024-05-11)
+
+
+### Bug Fixes
+
+* Remove custom app token ([b4e67a8](https://github.com/binary-braids/packer-esxi/commit/b4e67a8d7a820e19f63f05cab9708b91144e89b4))
+
+
+
 ## [0.1.5](https://github.com/binary-braids/packer-esxi/compare/v0.1.4...v0.1.5) (2024-05-11)
 
 
